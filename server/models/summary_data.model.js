@@ -2,13 +2,8 @@ import mongoose from "mongoose";
 
 export const SummaryDataSchema = new mongoose.Schema(
   {
-    videoId: {
-      type: String,
-    },
-    videoUrl: String,
-    transcript: {
-      type: String,
-    },
+    videoId: { type: String, required: true, unique: true },
+    transcriptPages: { type: [String], required: true },
     summary: {
       type: String,
     },

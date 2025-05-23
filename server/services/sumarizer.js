@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const summarizeText = async (text) => {
-  const res = await axios.post(
+export const summarizeText = async (req, res) => {
+  const { text } = req.body;
+  const response = await axios.post(
     "https://openrouter.ai/api/v1/chat/completions",
     {
       model: "deepseek/deepseek-prover-v2:free",
@@ -21,5 +22,7 @@ export const summarizeText = async (text) => {
     }
   );
 
-  return res.data.choices[0].message.content.trim();
+  res
+    .status(200)
+    .json({ summary: response.data.choices[0].message.content.trim() });
 };

@@ -2,7 +2,10 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import apiRouter from "./routes/summary.router.js";
+import transcriptRouter from "./routes/downloader.router.js";
+import summaryRouter from "./routes/summary.router.js";
+import translationRouter from "./routes/translation.route.js";
+import questionaryRouter from "./routes/questions.router.js";
 import { connectDb } from "./config/dbConfig.js";
 import { corsOptions } from "./config/corsConfig.js";
 
@@ -14,7 +17,13 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 
-app.use("/api/summary", apiRouter);
+app.use("/api/transcript", transcriptRouter);
+
+app.use("/api/summary", summaryRouter);
+
+app.use("/api/translate", translationRouter);
+
+app.use("/api/questionary", questionaryRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "hi welcome to transcribe! " });

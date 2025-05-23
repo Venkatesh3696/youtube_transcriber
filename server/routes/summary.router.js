@@ -1,8 +1,8 @@
 import express from "express";
-import { summarizePipeline } from "../controllers/summarize.controller.js";
+import { summarizeText } from "../services/sumarizer.js";
 
 const router = express.Router();
 
-router.post("/", summarizePipeline);
+router.post("/", summarizeText);
 
 export default router;

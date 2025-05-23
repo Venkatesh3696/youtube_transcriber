@@ -12,7 +12,7 @@ export const transcribeAudioFile = async (filePath) => {
   const { result, error } = await deepgram.listen.prerecorded.transcribeFile(
     fs.readFileSync(filePath),
     {
-      model: "nova-3",
+      // model: "nova-3",
       smart_format: true,
     }
   );
@@ -20,5 +20,6 @@ export const transcribeAudioFile = async (filePath) => {
   console.log("created transcript");
 
   if (error) throw error;
-  return result.results.channels[0].alternatives[0].transcript;
+  return result;
+  // return result.results.channels[0].alternatives[0].transcript;
 };
