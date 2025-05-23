@@ -37,13 +37,19 @@ export const downloadAudioFromYoutube = async (youtubeUrl, outputPath) => {
         console.error("Write stream error:", err);
         reject(err);
       });
+    console.log("audio downloaded", outputPath);
   });
 };
 
 export const handleDownloadAndConvert = async (youtubeUrl, outputPath) => {
   try {
-    await downloadAudioFromYoutube(youtubeUrl, outputPath);
+    await handleDownloadAndConvert(youtubeUrl, audioPath);
   } catch (err) {
-    console.error("Overall process failed:", err);
+    console.error("Audio download failed:", err);
+    return res.status(500).json({
+      message:
+        "Failed to download audio. YouTube may be blocking the server IP.",
+      error: err.message,
+    });
   }
 };

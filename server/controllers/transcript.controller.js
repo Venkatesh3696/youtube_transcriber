@@ -87,6 +87,13 @@ export const downloadAudioAndGenerateTranscript = async (req, res) => {
     const audioPath = path.join(downloadsDir, `${audioId}.mp3`);
     await handleDownloadAndConvert(youtubeUrl, audioPath);
 
+    if (!fs.existsSync(audioPath)) {
+      return res.status(500).json({
+        message:
+          "Audio file was not downloaded. Cannot proceed to transcription.",
+      });
+    }
+
     const transcript = await transcribeAudioFile(audioPath);
 
     console.log({ transcript });
