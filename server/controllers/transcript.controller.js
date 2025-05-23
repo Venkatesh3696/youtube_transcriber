@@ -111,7 +111,6 @@ export const downloadAudioAndGenerateTranscript = async (req, res) => {
       summaryData: newSummaryData,
     });
   } catch (error) {
-    fs.unlinkSync(audioPath);
     console.log("error summarizing video", error);
   }
 };
