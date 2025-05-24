@@ -1,5 +1,12 @@
 import ytdl from "@distube/ytdl-core";
+import { configDotenv } from "dotenv";
 import fs from "fs";
+
+import { HttpsProxyAgent } from "https-proxy-agent";
+
+configDotenv();
+
+const agent = new HttpsProxyAgent(process.env.PROXY_URL);
 
 function selectBestAudioFormat(formats) {
   return formats
@@ -21,7 +28,10 @@ export const downloadAudioFromYoutube = async (youtubeUrl, outputPath) => {
   const bestAudio = selectBestAudioFormat(audioFormats);
 
   return new Promise((resolve, reject) => {
-    const stream = ytdl(youtubeUrl, bestAudio);
+    const stream = ytdl(youtubeUrl, {
+      format: bestAudio,
+      requestOptions: agent,
+    });
 
     stream.on("error", (err) => {
       console.error("ytdl error:", err);
@@ -37,19 +47,14 @@ export const downloadAudioFromYoutube = async (youtubeUrl, outputPath) => {
         console.error("Write stream error:", err);
         reject(err);
       });
-    console.log("audio downloaded", outputPath);
+    console.log("audio downloaded");
   });
 };
 
 export const handleDownloadAndConvert = async (youtubeUrl, outputPath) => {
   try {
-    await handleDownloadAndConvert(youtubeUrl, audioPath);
+    await downloadAudioFromYoutube(youtubeUrl, outputPath);
   } catch (err) {
-    console.error("Audio download failed:", err);
-    return res.status(500).json({
-      message:
-        "Failed to download audio. YouTube may be blocking the server IP.",
-      error: err.message,
-    });
+    console.error("Overall process failed:", err);
   }
 };

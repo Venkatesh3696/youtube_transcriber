@@ -25,6 +25,8 @@ app.use("/api/translate", translationRouter);
 
 app.use("/api/questionary", questionaryRouter);
 
+app.use("/api/auth", questionaryRouter);
+
 app.get("/", (req, res) => {
   res.json({ message: "hi welcome to transcribe! " });
 });
